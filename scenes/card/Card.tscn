@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dpv0w0qlbsdvg"]
+
+[node name="Card" type="TextureButton" unique_id=1400788217]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TexturaFrente" type="TextureRect" parent="." unique_id=1196315980]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
