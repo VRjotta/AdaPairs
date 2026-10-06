@@ -1,10 +1,30 @@
 [gd_scene format=3 uid="uid://dpv0w0qlbsdvg"]
 
+[ext_resource type="Texture2D" uid="uid://co3tbmgyoxjgk" path="res://assets/images/f8ad638c34100e421bd7a9aca0a4997f.jpg" id="1_7d3tr"]
+[ext_resource type="Script" uid="uid://byc062joxxdt3" path="res://scenes/card/Card.gd" id="1_83o6g"]
+
 [node name="Card" type="TextureButton" unique_id=1400788217]
-offset_right = 40.0
-offset_bottom = 40.0
+custom_minimum_size = Vector2(150, 210)
+anchors_preset = -1
+anchor_right = 0.13000001
+anchor_bottom = 0.324
+offset_right = 0.23999023
+offset_bottom = 0.04800415
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_7d3tr")
+texture_pressed = ExtResource("1_7d3tr")
+texture_hover = ExtResource("1_7d3tr")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1_83o6g")
 
 [node name="TexturaFrente" type="TextureRect" parent="." unique_id=1196315980]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
