@@ -1,3 +1,2 @@
-res://scenes/card/Card.tscn
-res://scenes/card/Card.gd
-res://teste_card.tscn
+res://scenes/menu/MenuInicial.tscn
+res://scenes/board/Board.gd
