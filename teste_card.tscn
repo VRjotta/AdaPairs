@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cahqhefaxd6vc"]
 
 [ext_resource type="PackedScene" uid="uid://dpv0w0qlbsdvg" path="res://scenes/card/Card.tscn" id="1_ytnwm"]
-[ext_resource type="PackedScene" uid="uid://dmc4c0bp7aw0d" path="res://scenes/card/ResumeCard.tscn" id="2_igpgo"]
 
 [node name="TesteCard" type="Node2D" unique_id=2100765251]
 
@@ -16,9 +15,3 @@ offset_left = 473.0
 offset_top = 225.0
 offset_right = 623.0
 offset_bottom = 435.0
-
-[node name="ResumeCard" parent="." unique_id=1302068105 instance=ExtResource("2_igpgo")]
-offset_left = 725.0
-offset_top = 235.0
-offset_right = 875.0
-offset_bottom = 445.0

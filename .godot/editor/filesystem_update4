@@ -1,0 +1,4 @@
+res://scenes/board/Board.gd
+res://scenes/card/ResumeCard.tscn
+res://scenes/card/ResumeCard.gd
+res://teste_card.tscn
