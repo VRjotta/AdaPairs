@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dmc4c0bp7aw0d"]
 
-[ext_resource type="Texture2D" uid="uid://cfo5cibqha8jf" path="res://assets/images/6526eb1c179a942147284f354b8db823.jpg" id="1_c4jgf"]
+[ext_resource type="Texture2D" uid="uid://cfo5cibqha8jf" path="res://assets/images/carta_exemplo.jpg" id="1_c4jgf"]
 [ext_resource type="Script" uid="uid://c61ssx8xhifld" path="res://scenes/card/ResumeCard.gd" id="2_c7v57"]
 
 [node name="ResumeCard" type="TextureButton" unique_id=1302068105]
