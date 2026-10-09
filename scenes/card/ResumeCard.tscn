@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dmc4c0bp7aw0d"]
+
+[ext_resource type="Texture2D" uid="uid://cfo5cibqha8jf" path="res://assets/images/6526eb1c179a942147284f354b8db823.jpg" id="1_c4jgf"]
+[ext_resource type="Script" uid="uid://c61ssx8xhifld" path="res://scenes/card/ResumeCard.gd" id="2_c7v57"]
+
+[node name="ResumeCard" type="TextureButton" unique_id=1302068105]
+custom_minimum_size = Vector2(150, 210)
+anchors_preset = -1
+anchor_right = 0.13000001
+anchor_bottom = 0.324
+offset_right = 0.23999023
+offset_bottom = 0.04800415
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_c4jgf")
+texture_pressed = ExtResource("1_c4jgf")
+texture_hover = ExtResource("1_c4jgf")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("2_c7v57")
+
+[node name="ResumeLabel" type="Label" parent="." unique_id=1725585136]
+modulate = Color(0.972549, 0.007843138, 0.68235296, 1)
+custom_minimum_size = Vector2(120, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 75.0
+offset_right = -15.0
+offset_bottom = -85.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "No alto daquele cume..."
+horizontal_alignment = 1
+autowrap_mode = 3

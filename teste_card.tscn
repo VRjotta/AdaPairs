@@ -1,17 +1,24 @@
 [gd_scene format=3 uid="uid://cahqhefaxd6vc"]
 
 [ext_resource type="PackedScene" uid="uid://dpv0w0qlbsdvg" path="res://scenes/card/Card.tscn" id="1_ytnwm"]
+[ext_resource type="PackedScene" uid="uid://dmc4c0bp7aw0d" path="res://scenes/card/ResumeCard.tscn" id="2_igpgo"]
 
 [node name="TesteCard" type="Node2D" unique_id=2100765251]
 
 [node name="Card" parent="." unique_id=1400788217 instance=ExtResource("1_ytnwm")]
-offset_left = 292.12
-offset_top = 230.024
-offset_right = 442.12
-offset_bottom = 440.024
+offset_left = 227.0
+offset_top = 226.0
+offset_right = 377.0
+offset_bottom = 436.0
 
 [node name="Card2" parent="." unique_id=173242534 instance=ExtResource("1_ytnwm")]
-offset_left = 599.12
-offset_top = 238.024
-offset_right = 749.12
-offset_bottom = 448.024
+offset_left = 473.0
+offset_top = 225.0
+offset_right = 623.0
+offset_bottom = 435.0
+
+[node name="ResumeCard" parent="." unique_id=1302068105 instance=ExtResource("2_igpgo")]
+offset_left = 725.0
+offset_top = 235.0
+offset_right = 875.0
+offset_bottom = 445.0
