@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b0dnw5ole1fvo"]
+
+[ext_resource type="Script" uid="uid://bcok30g0111b2" path="res://testes/TesteTabuleiro.gd" id="1_gms8i"]
+[ext_resource type="Texture2D" uid="uid://cfo5cibqha8jf" path="res://assets/images/marie_curie.jpg" id="2_afeil"]
+[ext_resource type="Texture2D" uid="uid://d4nogbovp6g5i" path="res://assets/images/ada_lovelace.jpg" id="3_ksa34"]
+[ext_resource type="Texture2D" uid="uid://bumcpq0v35qw" path="res://assets/images/ada.jpg" id="4_d2jr7"]
+
+[node name="Control" type="Control" unique_id=1544387775]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_gms8i")
+imagens = Array[Texture2D]([ExtResource("2_afeil"), ExtResource("3_ksa34"), ExtResource("4_d2jr7")])
+
+[node name="Grid" type="GridContainer" parent="." unique_id=1461915635]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 3

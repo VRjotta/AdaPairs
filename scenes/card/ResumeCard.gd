@@ -6,12 +6,22 @@ enum EstadoCarta{ESCONDIDA, VIRADA, RESOLVIDA}
 
 var estado: EstadoCarta=EstadoCarta.ESCONDIDA
 var valor: int
+var resumo: String
 
 @onready var textura: TextureRect = $TexturaResumo
 @onready var label_resumo: Label = $ResumeLabel
 
 func _ready():
+	textura.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	label_resumo.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	_atualizar_visual()
+
+func definir_dados(id:int, texto:String, moldura: Texture2D=null)->void:
+	valor=id
+	resumo=texto
+	if moldura != null and textura!=null:
+		textura.texture=null
+	_atualizar_visual()	
 
 func _pressed():
 	if estado!=EstadoCarta.ESCONDIDA:
@@ -36,8 +46,15 @@ func _atualizar_visual():
 		EstadoCarta.ESCONDIDA:
 			textura.visible = false
 			label_resumo.visible = false
-		EstadoCarta.VIRADA, EstadoCarta.RESOLVIDA:
+		EstadoCarta.VIRADA:
 			textura.visible = true
 			label_resumo.visible = true
-			label_resumo.text="No alto daquele cume, eu plantei uma roseira..."
-			textura.texture=load("res://assets/images/500364e40ab7f001da3129407ab33a36.jpg")
+			label_resumo.text = resumo
+			textura.modulate = Color.WHITE
+			label_resumo.modulate = Color.BLACK
+		EstadoCarta.RESOLVIDA:
+			textura.visible = true
+			label_resumo.visible = true
+			label_resumo.text = resumo
+			textura.modulate = Color.WHITE
+			label_resumo.modulate = Color.BLACK
