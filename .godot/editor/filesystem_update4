@@ -1,5 +1,7 @@
-res://scenes/board/Board (1).gd
+res://scenes/turn_manager/turn_manager.gd
+res://scenes/turn_manager/Score.tscn
+res://scenes/turn_manager/score.gd
+res://scenes/turn_manager/turn_manager.tscn
 res://data/Dados_Mulheres.gd
 res://scenes/card/Card.gd
-res://scenes/card/ResumeCard.tscn
-res://scenes/board/Board.tscn
+res://scenes/card/ResumeCard.gd
