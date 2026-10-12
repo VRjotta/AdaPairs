@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://dedsragb4jowo"]
+
+[ext_resource type="Script" uid="uid://dietkniqb2y35" path="res://scenes/turn_manager/score.gd" id="1_l7jq6"]
+
+[node name="Score" type="Control" unique_id=1232219660]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l7jq6")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=551115149]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=105563441]
+layout_mode = 2
+
+[node name="LabelFase" type="Label" parent="MarginContainer/VBoxContainer" unique_id=904583609]
+layout_mode = 2
+
+[node name="LabelTurno" type="Label" parent="MarginContainer/VBoxContainer/LabelFase" unique_id=1682818614]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=122742866]
+layout_mode = 2
+
+[node name="PainelJ1" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2081369787]
+layout_mode = 2
+
+[node name="LabelNomeJ1" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PainelJ1" unique_id=575786975]
+layout_mode = 2
+
+[node name="LabelPontosJ1" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PainelJ1" unique_id=1049004877]
+layout_mode = 2
+
+[node name="LabelParesJ1" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PainelJ1" unique_id=1783464101]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1192198215]
+layout_mode = 2
+
+[node name="PainelJ2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=623069198]
+layout_mode = 2
+
+[node name="LabelNomeJ2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PainelJ2" unique_id=1274555156]
+layout_mode = 2
+
+[node name="LabelPontosJ2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PainelJ2" unique_id=1202342527]
+layout_mode = 2
+
+[node name="LabelParesJ2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PainelJ2" unique_id=841457031]
+layout_mode = 2
