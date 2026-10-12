@@ -2,3 +2,4 @@ res://scenes/board/Board (1).gd
 res://data/Dados_Mulheres.gd
 res://scenes/card/Card.gd
 res://scenes/card/ResumeCard.tscn
+res://scenes/board/Board.tscn
