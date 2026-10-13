@@ -1,2 +1,4 @@
+res://scenes/menu/TelaDeTitulo.tscn
+res://scenes/menu/label_1p.gd
+res://scenes/menu/label_2p.gd
 res://data/Dados_Mulheres.gd
-res://scenes/card/Card.gd

@@ -1,5 +1,53 @@
 [gd_scene format=3 uid="uid://bj7hsv74cfuy"]
 
+[ext_resource type="Texture2D" uid="uid://blodw2lhw0ijm" path="res://assets/images/CenarioLuzApagada.png" id="1_144tc"]
+[ext_resource type="Texture2D" uid="uid://bocetg18lrik2" path="res://assets/images/ConfiguracaoEscura.png" id="2_lekay"]
+[ext_resource type="Texture2D" uid="uid://ikyrx6x5u8ds" path="res://assets/images/configHLE.png" id="3_c40mi"]
+[ext_resource type="Texture2D" uid="uid://yratk1b6ef7c" path="res://assets/images/cenarioLuzLigada.png" id="3_ed6sr"]
+[ext_resource type="Script" uid="uid://duwfcqtv1110h" path="res://scenes/menu/cliqueIrregular.gd" id="3_lekay"]
+[ext_resource type="Texture2D" uid="uid://drgum2e10pc7o" path="res://assets/images/CreditosEscuro.png" id="3_txp6i"]
+[ext_resource type="Script" uid="uid://ctlababb6ysue" path="res://scenes/menu/Button2.gd" id="4_ivd5k"]
+[ext_resource type="Texture2D" uid="uid://rmmbgjmowdso" path="res://assets/images/JogarEscuro.png" id="4_vs02p"]
+[ext_resource type="Texture2D" uid="uid://co6p1jn1luve5" path="res://assets/images/JogarHightLidghtEscuro.png" id="5_vs02p"]
+[ext_resource type="Texture2D" uid="uid://dbkswoous0on4" path="res://assets/images/credhlee.png" id="6_qm6an"]
+[ext_resource type="Script" uid="uid://cdmk4qpsngtha" path="res://scenes/menu/button_3.gd" id="7_focq1"]
+[ext_resource type="Texture2D" uid="uid://dxoxp4o1mefrd" path="res://assets/images/CadeiraIluminada.png" id="12_1gryt"]
+[ext_resource type="Script" uid="uid://g0hipkk15788" path="res://scenes/menu/label_1p.gd" id="13_kxktu"]
+[ext_resource type="Texture2D" uid="uid://cee2gmyfdb3f3" path="res://assets/images/CadeiraIluminada2.png" id="13_nalgp"]
+[ext_resource type="Script" uid="uid://b8e2f1oh27lgf" path="res://scenes/menu/label_2p.gd" id="15_kxktu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfquk"]
+atlas = ExtResource("2_lekay")
+region = Rect2(137.89648, 296.12842, 1661.8151, 419.49738)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6n3v"]
+atlas = ExtResource("3_c40mi")
+region = Rect2(63.156174, 149.12523, 835.91516, 207.83684)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dddl"]
+atlas = ExtResource("3_txp6i")
+region = Rect2(145.72134, 306.3244, 1637.6193, 386.6574)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tjd0e"]
+atlas = ExtResource("6_qm6an")
+region = Rect2(72.77142, 155.35252, 813.3901, 191.32271)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6k3e5"]
+atlas = ExtResource("4_vs02p")
+region = Rect2(142.22101, 293.09045, 1637.1101, 413.27783)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txp6i"]
+atlas = ExtResource("5_vs02p")
+region = Rect2(57.431946, 153.91272, 845.1147, 191.75397)
+
+[sub_resource type="BitMap" id="BitMap_c40mi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dc0wv"]
+font_size = 29
+
+[sub_resource type="LabelSettings" id="LabelSettings_nalgp"]
+font_size = 29
+
 [node name="MenuInicial" type="Control" unique_id=457780716]
 layout_mode = 3
 anchors_preset = 15
@@ -11,3 +59,116 @@ offset_right = -2.0
 offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CenarioLuzApagada" type="Sprite2D" parent="." unique_id=279223845]
+position = Vector2(578, 321.99997)
+scale = Vector2(0.29999998, 0.3)
+texture = ExtResource("1_144tc")
+
+[node name="Button2" type="TextureButton" parent="." unique_id=660687011]
+layout_mode = 0
+offset_left = 107.0
+offset_top = 334.00003
+offset_right = 1768.0
+offset_bottom = 753.0
+scale = Vector2(0.157, 0.181)
+texture_normal = SubResource("AtlasTexture_dfquk")
+texture_hover = SubResource("AtlasTexture_j6n3v")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("4_ivd5k")
+
+[node name="Button3" type="TextureButton" parent="." unique_id=1282969362]
+layout_mode = 0
+offset_left = 109.00001
+offset_top = 428.00003
+offset_right = 1746.0
+offset_bottom = 814.0
+scale = Vector2(0.157, 0.181)
+texture_normal = SubResource("AtlasTexture_3dddl")
+texture_hover = SubResource("AtlasTexture_tjd0e")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("7_focq1")
+
+[node name="Button" type="TextureButton" parent="." unique_id=1334317748 node_paths=PackedStringArray("meu_sprite")]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 250.00002
+offset_right = 1757.0
+offset_bottom = 663.0
+scale = Vector2(0.157, 0.157)
+texture_normal = SubResource("AtlasTexture_6k3e5")
+texture_hover = SubResource("AtlasTexture_txp6i")
+texture_click_mask = SubResource("BitMap_c40mi")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("3_lekay")
+meu_sprite = NodePath("../CenarioLuzApagada")
+nova_imagem = ExtResource("3_ed6sr")
+
+[node name="PainelSelecao" type="Control" parent="." unique_id=465539301]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CadeiraIluminada" type="Sprite2D" parent="PainelSelecao" unique_id=878626410]
+position = Vector2(797.74994, 549.2037)
+scale = Vector2(0.31317198, 0.3019001)
+texture = ExtResource("12_1gryt")
+region_enabled = true
+region_rect = Rect2(1857.6279, 1548.4977, 372.15503, 575.88367)
+
+[node name="Botão1P" type="Button" parent="PainelSelecao" unique_id=804629113]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 716.0
+offset_top = 306.0
+offset_right = 782.0
+offset_bottom = 333.0
+
+[node name="Label1P" type="Label" parent="PainelSelecao" unique_id=544055031]
+layout_mode = 0
+offset_left = 696.0
+offset_top = 270.0
+offset_right = 828.0
+offset_bottom = 307.0
+text = "1 Player"
+label_settings = SubResource("LabelSettings_dc0wv")
+script = ExtResource("13_kxktu")
+
+[node name="CadeiraIluminada2" type="Sprite2D" parent="PainelSelecao" unique_id=2092229188]
+position = Vector2(747, 320)
+scale = Vector2(0.30190703, 0.298387)
+texture = ExtResource("13_nalgp")
+region_enabled = true
+region_rect = Rect2(1757.2001, 1010.0996, 236.50012, 124.80054)
+
+[node name="Botão2P" type="Button" parent="PainelSelecao" unique_id=252311209]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Label2P" type="Label" parent="PainelSelecao" unique_id=226084678]
+layout_mode = 0
+offset_left = 750.0
+offset_top = 424.0
+offset_right = 857.0
+offset_bottom = 454.0
+text = "2 Players"
+label_settings = SubResource("LabelSettings_nalgp")
+script = ExtResource("15_kxktu")
+
+[node name="NotãoVoltar" type="Button" parent="." unique_id=1495706123]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1912548703]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1688543670]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="pressed" from="Button" to="Button" method="_ao_clicar"]

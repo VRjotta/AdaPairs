@@ -1,9 +1,14 @@
+ColorRect
+AnimationPlayer
+Button
+Label
 Control
+Node
+TextureButton
+TextureRect
 GridContainer
 CenterContainer
-TextureRect
 Timer
 HBoxContainer
 MarginContainer
 Node2D
-TextureButton
