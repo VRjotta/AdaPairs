@@ -1,4 +1,6 @@
 res://scenes/menu/TelaDeTitulo.tscn
-res://scenes/menu/label_1p.gd
-res://scenes/menu/label_2p.gd
-res://data/Dados_Mulheres.gd
+res://scenes/menu/tela_de_titulo.gd
+res://scenes/menu/Button2.gd
+res://scenes/menu/button_3.gd
+res://scenes/menu/cliqueIrregular.gd
+res://scenes/menu/tela_de_titulo2.gd

@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 # Referências aos nós
-@onready var texture_rect: TextureRect = $TextureRect
+
 # Se estiver usando Sprite2D, troque para:
 # @onready var sprite: Sprite2D = $Sprite2D
 

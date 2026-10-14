@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://bj7hsv74cfuy"]
 
+[ext_resource type="Script" uid="uid://bflr35bscl1on" path="res://scenes/menu/tela_de_titulo2.gd" id="1_8yff0"]
 [ext_resource type="Texture2D" uid="uid://blodw2lhw0ijm" path="res://assets/images/CenarioLuzApagada.png" id="1_144tc"]
 [ext_resource type="Texture2D" uid="uid://bocetg18lrik2" path="res://assets/images/ConfiguracaoEscura.png" id="2_lekay"]
 [ext_resource type="Texture2D" uid="uid://ikyrx6x5u8ds" path="res://assets/images/configHLE.png" id="3_c40mi"]
 [ext_resource type="Texture2D" uid="uid://yratk1b6ef7c" path="res://assets/images/cenarioLuzLigada.png" id="3_ed6sr"]
 [ext_resource type="Script" uid="uid://duwfcqtv1110h" path="res://scenes/menu/cliqueIrregular.gd" id="3_lekay"]
 [ext_resource type="Texture2D" uid="uid://drgum2e10pc7o" path="res://assets/images/CreditosEscuro.png" id="3_txp6i"]
+[ext_resource type="VideoStream" uid="uid://d1t6inqis8wxc" path="res://assets/videos/Animacao1Player.ogv" id="3_vl8ne"]
 [ext_resource type="Script" uid="uid://ctlababb6ysue" path="res://scenes/menu/Button2.gd" id="4_ivd5k"]
+[ext_resource type="VideoStream" uid="uid://dythpcuse6eth" path="res://assets/videos/Animacao2Player.ogv" id="4_pw7of"]
 [ext_resource type="Texture2D" uid="uid://rmmbgjmowdso" path="res://assets/images/JogarEscuro.png" id="4_vs02p"]
 [ext_resource type="Texture2D" uid="uid://co6p1jn1luve5" path="res://assets/images/JogarHightLidghtEscuro.png" id="5_vs02p"]
 [ext_resource type="Texture2D" uid="uid://dbkswoous0on4" path="res://assets/images/credhlee.png" id="6_qm6an"]
@@ -48,7 +51,7 @@ font_size = 29
 [sub_resource type="LabelSettings" id="LabelSettings_nalgp"]
 font_size = 29
 
-[node name="MenuInicial" type="Control" unique_id=457780716]
+[node name="MenuInicial" type="Control" unique_id=457780716 node_paths=PackedStringArray("botao_jogar", "botao_voltar", "imagem_fundo", "painel_selecao", "botao_1p", "silhueta_1p", "botao_2p", "silhueta_2p", "video_player", "tela_fade")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,11 +62,34 @@ offset_right = -2.0
 offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_8yff0")
+botao_jogar = NodePath("Button")
+botao_voltar = NodePath("NotãoVoltar")
+imagem_fundo = NodePath("CenarioLuzApagada")
+textura_fundo_inicial = ExtResource("1_144tc")
+painel_selecao = NodePath("PainelSelecao")
+botao_1p = NodePath("PainelSelecao/Botão1P")
+silhueta_1p = NodePath("PainelSelecao/CadeiraIluminada2")
+botao_2p = NodePath("PainelSelecao/Botão2P")
+silhueta_2p = NodePath("PainelSelecao/CadeiraIluminada")
+video_player = NodePath("VideoStreamPlayer")
+video_1p = ExtResource("4_pw7of")
+video_2p = ExtResource("3_vl8ne")
+tela_fade = NodePath("ColorRect")
 
 [node name="CenarioLuzApagada" type="Sprite2D" parent="." unique_id=279223845]
 position = Vector2(578, 321.99997)
 scale = Vector2(0.29999998, 0.3)
 texture = ExtResource("1_144tc")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=238077752]
+visible = false
+layout_mode = 0
+offset_left = 2.0
+offset_top = -2.0
+offset_right = 1154.0
+offset_bottom = 646.0
+expand = true
 
 [node name="Button2" type="TextureButton" parent="." unique_id=660687011]
 layout_mode = 0
@@ -145,9 +171,12 @@ region_enabled = true
 region_rect = Rect2(1757.2001, 1010.0996, 236.50012, 124.80054)
 
 [node name="Botão2P" type="Button" parent="PainelSelecao" unique_id=252311209]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 747.0
+offset_top = 472.0
+offset_right = 850.0
+offset_bottom = 625.0
 
 [node name="Label2P" type="Label" parent="PainelSelecao" unique_id=226084678]
 layout_mode = 0
@@ -160,15 +189,20 @@ label_settings = SubResource("LabelSettings_nalgp")
 script = ExtResource("15_kxktu")
 
 [node name="NotãoVoltar" type="Button" parent="." unique_id=1495706123]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1912548703]
+offset_left = 744.0
+offset_top = 112.0
+offset_right = 781.0
+offset_bottom = 147.0
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1688543670]
+visible = false
+modulate = Color(0, 0, 0, 1)
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 2.0
+offset_top = -2.0
+offset_right = 1154.0
+offset_bottom = 646.0
 
 [connection signal="pressed" from="Button" to="Button" method="_ao_clicar"]
