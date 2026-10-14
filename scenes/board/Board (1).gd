@@ -17,6 +17,11 @@ const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
 @export var tempo_erro: float = 1.0
 @export var modo_autonomo: bool = true
 
+# Layout do tabuleiro
+@export var espacamento: int = 8        # espaço entre as cartas (px)
+@export var margem_tela: int = 24       # folga nas bordas da tela (px)
+@export var proporcao_carta: float = 0.75 # largura / altura (0.75 = 3:4). Use 1.0 para cartas quadradas
+
 @onready var grid_container = $CenterContainer/GridContainerCerto
 @onready var dados_mulheres = preload("res://data/Dados_Mulheres.gd").new()
 @onready var audio_player = $AudioStreamPlayer
@@ -37,6 +42,19 @@ func _ready() -> void:
 	iniciar_fase(1)
 
 
+# Calcula o tamanho de cada carta para que todas caibam na tela
+func _calcular_tamanho_carta(total_cartas: int) -> Vector2:
+	var area := get_viewport_rect().size - Vector2.ONE * margem_tela * 2
+	var linhas := ceili(float(total_cartas) / colunas)
+
+	var largura := (area.x - espacamento * (colunas - 1)) / colunas
+	var altura := (area.y - espacamento * (linhas - 1)) / linhas
+
+	# Mantém a proporção e usa o menor tamanho possível nos dois sentidos
+	var h := minf(altura, largura / proporcao_carta)
+	return Vector2(h * proporcao_carta, h)
+
+
 func iniciar_fase(numero: int) -> void:
 	_token += 1
 	var meu_token := _token
@@ -45,7 +63,7 @@ func iniciar_fase(numero: int) -> void:
 	pode_clicar = false
 	cartas_viradas.clear()
 
-# >>> CONTROLE DA MÚSICA POR FASE <<<
+	# >>> CONTROLE DA MÚSICA POR FASE <<<
 	if fase == 1:
 		audio_player.stream = Slow_Music
 		audio_player.play()
@@ -62,6 +80,11 @@ func iniciar_fase(numero: int) -> void:
 	if pares < quantidade_de_pares:
 		push_warning("Só há %d mulheres nos dados (esperado %d)." % [pares, quantidade_de_pares])
 	pares_restantes = pares
+
+	# Espaçamento e tamanho das cartas
+	grid_container.add_theme_constant_override("h_separation", espacamento)
+	grid_container.add_theme_constant_override("v_separation", espacamento)
+	var tamanho_carta := _calcular_tamanho_carta(pares * 2)
 
 	# Limpa as cartas da fase anterior
 	for filho in grid_container.get_children():
@@ -82,6 +105,7 @@ func iniciar_fase(numero: int) -> void:
 			grid_container.add_child(nova_carta)
 			nova_carta.definir_dados(id_carta, dados.get("resumo", ""))
 
+		nova_carta.custom_minimum_size = tamanho_carta
 		nova_carta.carta_clicada.connect(_on_carta_clicada)
 
 	var tempo := tempo_memorizacao_fase1 if fase == 1 else tempo_memorizacao_fase2
