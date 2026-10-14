@@ -1,22 +1,41 @@
 [gd_scene format=3 uid="uid://drdw40ampti80"]
 
 [ext_resource type="Script" uid="uid://chqgpvx4bstlk" path="res://scenes/board/Board (1).gd" id="1_6puts"]
+[ext_resource type="Texture2D" uid="uid://bldlkx6jnjd7y" path="res://assets/images/Tabuleiro.png" id="2_4vko3"]
 
 [node name="Board" type="Control" unique_id=127724548]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_6puts")
+colunas = 9
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=997548699]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_4vko3")
+expand_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=854297561]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="GridContainerCerto" type="GridContainer" parent="CenterContainer" unique_id=1465105170]
 layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
 columns = 6
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=656313849]
