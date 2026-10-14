@@ -1,13 +1,10 @@
-<<<<<<< HEAD
+Control
 VideoStreamPlayer
-=======
 AudioStreamPlayer
->>>>>>> 286aebac0cd24cb96e5ce95f21ea0c1536a5e76f
 ColorRect
 AnimationPlayer
 Button
 Label
-Control
 Node
 TextureButton
 TextureRect
@@ -15,4 +12,3 @@ GridContainer
 CenterContainer
 Timer
 HBoxContainer
-MarginContainer
