@@ -1,0 +1,14 @@
+Control
+VideoStreamPlayer
+AudioStreamPlayer
+ColorRect
+AnimationPlayer
+Button
+Label
+Node
+TextureButton
+TextureRect
+GridContainer
+CenterContainer
+Timer
+HBoxContainer
