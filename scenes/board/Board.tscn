@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://drdw40ampti80"]
 
 [ext_resource type="Script" uid="uid://chqgpvx4bstlk" path="res://scenes/board/Board (1).gd" id="1_6puts"]
-[ext_resource type="Texture2D" uid="uid://bpeifmth8hw6f" path="res://scenes/board/Fundo_Tabuleiro.png" id="2_4vko3"]
+[ext_resource type="Texture2D" uid="uid://bldlkx6jnjd7y" path="res://assets/images/Tabuleiro.png" id="2_4vko3"]
 
 [node name="Board" type="Control" unique_id=127724548]
 layout_mode = 3

@@ -18,7 +18,7 @@ const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
 @export var modo_autonomo: bool = true
 
 # Layout do tabuleiro
-@export var espacamento: int = 8        # espaço entre as cartas (px)
+@export var espacamento: int = 4        # espaço entre as cartas (px)
 @export var margem_tela: int = 24       # folga nas bordas da tela (px)
 @export var proporcao_carta: float = 0.75 # largura / altura (0.75 = 3:4). Use 1.0 para cartas quadradas
 
@@ -63,6 +63,11 @@ func iniciar_fase(numero: int) -> void:
 	pode_clicar = false
 	cartas_viradas.clear()
 
+	# A fase 2 precisa da cena de resumo; se não existir, nem troca a música
+	if numero == 2 and resume_card_scene == null:
+		push_error("ResumeCard.tscn não encontrada: fase 2 indisponível.")
+		return
+
 	# >>> CONTROLE DA MÚSICA POR FASE <<<
 	if fase == 1:
 		audio_player.stream = Slow_Music
@@ -70,10 +75,6 @@ func iniciar_fase(numero: int) -> void:
 	elif fase == 2:
 		audio_player.stream = Fast_Music
 		audio_player.play()
-
-	if numero == 2 and resume_card_scene == null:
-		push_error("ResumeCard.tscn não encontrada: fase 2 indisponível.")
-		return
 
 	# Não pede mais pares do que existem nos dados
 	var pares: int = mini(quantidade_de_pares, dados_mulheres.mulheres.size())
@@ -107,6 +108,12 @@ func iniciar_fase(numero: int) -> void:
 
 		nova_carta.custom_minimum_size = tamanho_carta
 		nova_carta.carta_clicada.connect(_on_carta_clicada)
+
+	# Espera um frame para o GridContainer definir o tamanho final das cartas.
+	# Sem isso, a animação de virar usa o tamanho antigo e as cartas parecem crescer.
+	await get_tree().process_frame
+	if meu_token != _token:
+		return
 
 	var tempo := tempo_memorizacao_fase1 if fase == 1 else tempo_memorizacao_fase2
 	if tempo > 0.0:
