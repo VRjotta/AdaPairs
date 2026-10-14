@@ -4,3 +4,6 @@ res://scenes/menu/Button2.gd
 res://scenes/menu/button_3.gd
 res://scenes/menu/cliqueIrregular.gd
 res://scenes/menu/tela_de_titulo2.gd
+res://scenes/board/Board (1).gd
+res://scenes/card/Card.gd
+res://scenes/card/Card.tscn

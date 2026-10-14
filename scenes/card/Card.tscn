@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://co3tbmgyoxjgk" path="res://assets/images/f8ad638c34100e421bd7a9aca0a4997f.jpg" id="1_7d3tr"]
 [ext_resource type="Script" uid="uid://byc062joxxdt3" path="res://scenes/card/Card.gd" id="1_83o6g"]
+[ext_resource type="AudioStream" uid="uid://b4frovxwykjli" path="res://sounds/card-place-1.ogg" id="3_s5r67"]
 
 [node name="Card" type="TextureButton" unique_id=1400788217]
 custom_minimum_size = Vector2(150, 210)
@@ -28,3 +29,6 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 stretch_mode = 5
+
+[node name="ShuffleCardSfx" type="AudioStreamPlayer" parent="." unique_id=538515207]
+stream = ExtResource("3_s5r67")
