@@ -20,3 +20,5 @@ offset_bottom = 40.0
 [node name="GridContainerCerto" type="GridContainer" parent="CenterContainer" unique_id=1465105170]
 layout_mode = 2
 columns = 6
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=656313849]

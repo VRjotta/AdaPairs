@@ -9,6 +9,7 @@ var estado: EstadoCarta = EstadoCarta.ESCONDIDA
 var imagem: Texture2D           #frente da carta, definida pelo tabuleiro
 
 @onready var textura: TextureRect = $TexturaFrente
+@onready var card_sfx = $ShuffleCardSfx
 
 func _ready() -> void:
 	textura.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -31,6 +32,7 @@ func _pressed() -> void:
 func virar() -> void:
 	estado = EstadoCarta.VIRADA
 	_atualizar_visual()
+	card_sfx.play()
 
 func esconder() -> void:
 	estado = EstadoCarta.ESCONDIDA

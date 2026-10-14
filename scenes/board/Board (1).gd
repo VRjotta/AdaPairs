@@ -7,7 +7,10 @@ signal fase_terminada(fase)
 const CARD_SCENE = preload("res://scenes/card/Card.tscn")
 const RESUME_CARD_PATH = "res://scenes/card/ResumeCard.tscn"
 
-@export var quantidade_de_pares: int = 18        # 18 pares = 36 cartas
+const Slow_Music = preload("res://sounds/Música Slow AdaPairs.mp3")
+const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
+
+@export var quantidade_de_pares: int = 18
 @export var colunas: int = 6
 @export var tempo_memorizacao_fase1: float = 5.0
 @export var tempo_memorizacao_fase2: float = 0.0
@@ -16,13 +19,14 @@ const RESUME_CARD_PATH = "res://scenes/card/ResumeCard.tscn"
 
 @onready var grid_container = $CenterContainer/GridContainerCerto
 @onready var dados_mulheres = preload("res://data/Dados_Mulheres.gd").new()
+@onready var audio_player = $AudioStreamPlayer
 
 var resume_card_scene: PackedScene
 var fase: int = 1
 var cartas_viradas: Array = []
 var pode_clicar: bool = false
 var pares_restantes: int = 0
-var _token: int = 0  # identifica a fase atual; muda a cada iniciar_fase
+var _token: int = 0 # identifica a fase atual; muda a cada iniciar_fase
 
 
 func _ready() -> void:
@@ -40,6 +44,14 @@ func iniciar_fase(numero: int) -> void:
 	fase = numero
 	pode_clicar = false
 	cartas_viradas.clear()
+
+# >>> CONTROLE DA MÚSICA POR FASE <<<
+	if fase == 1:
+		audio_player.stream = Slow_Music
+		audio_player.play()
+	elif fase == 2:
+		audio_player.stream = Fast_Music
+		audio_player.play()
 
 	if numero == 2 and resume_card_scene == null:
 		push_error("ResumeCard.tscn não encontrada: fase 2 indisponível.")
@@ -78,7 +90,7 @@ func iniciar_fase(numero: int) -> void:
 			carta.virar()
 		await get_tree().create_timer(tempo).timeout
 		if meu_token != _token:
-			return  # a fase foi reiniciada durante a espera
+			return
 		for carta in grid_container.get_children():
 			carta.esconder()
 
@@ -133,7 +145,7 @@ func checar_par() -> void:
 		par_errado.emit()
 		await get_tree().create_timer(tempo_erro).timeout
 		if meu_token != _token:
-			return  # as cartas já foram descartadas
+			return
 		carta1.esconder()
 		carta2.esconder()
 		cartas_viradas.clear()

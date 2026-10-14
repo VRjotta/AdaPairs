@@ -1,3 +1,4 @@
+AudioStreamPlayer
 ColorRect
 AnimationPlayer
 Button
@@ -11,4 +12,3 @@ CenterContainer
 Timer
 HBoxContainer
 MarginContainer
-Node2D
