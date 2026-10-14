@@ -5,28 +5,36 @@ signal par_errado
 signal fase_terminada(fase)
 
 const CARD_SCENE = preload("res://scenes/card/Card.tscn")
-const RESUME_CARD_PATH = "res://scenes/card/ResumeCard.tscn"
+# FASE 2: Desativada / Comentada
+# const RESUME_CARD_PATH = "res://scenes/card/ResumeCard.tscn"
 
 const Slow_Music = preload("res://sounds/Música Slow AdaPairs.mp3")
-const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
+# FASE 2: Desativada / Comentada
+# const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
 
-@export var quantidade_de_pares: int = 18
+# Caminho da fonte enviado
+const FONT_PATH = "res://assets/fontes/Always in the Star.ttf"
+
+@export var quantidade_de_pares: int = 12
 @export var colunas: int = 6
 @export var tempo_memorizacao_fase1: float = 5.0
-@export var tempo_memorizacao_fase2: float = 0.0
+# @export var tempo_memorizacao_fase2: float = 0.0 # FASE 2
 @export var tempo_erro: float = 1.0
-@export var modo_autonomo: bool = true
+@export var modo_autonomo: bool = false 
 
 # Layout do tabuleiro
-@export var espacamento: int = 4        # espaço entre as cartas (px)
-@export var margem_tela: int = 24       # folga nas bordas da tela (px)
+@export var espacamento: int = 12         # espaço entre as cartas (px)
+@export var margem_tela: int = 60         # folga nas bordas da tela (px)
 @export var proporcao_carta: float = 0.75 # largura / altura (0.75 = 3:4). Use 1.0 para cartas quadradas
+@export var fator_tamanho: float = 0.8    # 1.0 = ocupa toda a área disponível; menor = cartas menores
 
 @onready var grid_container = $CenterContainer/GridContainerCerto
 @onready var dados_mulheres = preload("res://data/Dados_Mulheres.gd").new()
 @onready var audio_player = $AudioStreamPlayer
 
-var resume_card_scene: PackedScene
+# Nó opcional para exibir a mensagem de "Você ganhou!" na tela
+@onready var mens_vitoria_label = $MensagemVitoria if has_node("MensagemVitoria") else null
+
 var fase: int = 1
 var cartas_viradas: Array = []
 var pode_clicar: bool = false
@@ -35,9 +43,25 @@ var _token: int = 0 # identifica a fase atual; muda a cada iniciar_fase
 
 
 func _ready() -> void:
-	# Só carrega o ResumeCard se ele existir (permite testar a fase 1 antes)
-	if ResourceLoader.exists(RESUME_CARD_PATH):
-		resume_card_scene = load(RESUME_CARD_PATH)
+	if mens_vitoria_label:
+		mens_vitoria_label.hide()
+		
+		# Configura o Label para ocupar o ecrã inteiro e centralizar o texto perfeitamente
+		mens_vitoria_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		mens_vitoria_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		mens_vitoria_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		
+		# Carrega e aplica a fonte personalizada
+		if ResourceLoader.exists(FONT_PATH):
+			var custom_font = load(FONT_PATH)
+			mens_vitoria_label.add_theme_font_override("font", custom_font)
+		
+		# Aumenta o tamanho da fonte (ajuste o valor se quiser maior ou menor)
+		mens_vitoria_label.add_theme_font_size_override("font_size", 64)
+		
+		# Aplica a cor verde
+		mens_vitoria_label.add_theme_color_override("font_color", Color.GREEN)
+		
 	grid_container.columns = colunas
 	iniciar_fase(1)
 
@@ -50,8 +74,8 @@ func _calcular_tamanho_carta(total_cartas: int) -> Vector2:
 	var largura := (area.x - espacamento * (colunas - 1)) / colunas
 	var altura := (area.y - espacamento * (linhas - 1)) / linhas
 
-	# Mantém a proporção e usa o menor tamanho possível nos dois sentidos
-	var h := minf(altura, largura / proporcao_carta)
+	# Mantém a proporção, usa o menor tamanho possível nos dois sentidos e aplica o fator
+	var h := minf(altura, largura / proporcao_carta) * fator_tamanho
 	return Vector2(h * proporcao_carta, h)
 
 
@@ -63,17 +87,9 @@ func iniciar_fase(numero: int) -> void:
 	pode_clicar = false
 	cartas_viradas.clear()
 
-	# A fase 2 precisa da cena de resumo; se não existir, nem troca a música
-	if numero == 2 and resume_card_scene == null:
-		push_error("ResumeCard.tscn não encontrada: fase 2 indisponível.")
-		return
-
-	# >>> CONTROLE DA MÚSICA POR FASE <<<
+	# >>> CONTROLE DA MÚSICA <<<
 	if fase == 1:
 		audio_player.stream = Slow_Music
-		audio_player.play()
-	elif fase == 2:
-		audio_player.stream = Fast_Music
 		audio_player.play()
 
 	# Não pede mais pares do que existem nos dados
@@ -101,21 +117,17 @@ func iniciar_fase(numero: int) -> void:
 			nova_carta = CARD_SCENE.instantiate()
 			grid_container.add_child(nova_carta)
 			nova_carta.definir_dados(id_carta, dados["imagem"])
-		else:
-			nova_carta = resume_card_scene.instantiate()
-			grid_container.add_child(nova_carta)
-			nova_carta.definir_dados(id_carta, dados.get("resumo", ""))
 
 		nova_carta.custom_minimum_size = tamanho_carta
 		nova_carta.carta_clicada.connect(_on_carta_clicada)
 
 	# Espera um frame para o GridContainer definir o tamanho final das cartas.
-	# Sem isso, a animação de virar usa o tamanho antigo e as cartas parecem crescer.
 	await get_tree().process_frame
 	if meu_token != _token:
 		return
 
-	var tempo := tempo_memorizacao_fase1 if fase == 1 else tempo_memorizacao_fase2
+	var tempo := tempo_memorizacao_fase1
+	
 	if tempo > 0.0:
 		for carta in grid_container.get_children():
 			carta.virar()
@@ -132,10 +144,8 @@ func _gerar_itens(numero_fase: int, pares: int) -> Array:
 	var itens: Array = []
 	for i in range(pares):
 		itens.append({"id": i, "tipo": "figura"})
-		if numero_fase == 1:
-			itens.append({"id": i, "tipo": "figura"})
-		else:
-			itens.append({"id": i, "tipo": "resumo"})
+		itens.append({"id": i, "tipo": "figura"})
+			
 	itens.shuffle()
 	return itens
 
@@ -185,11 +195,10 @@ func checar_par() -> void:
 
 func _terminar_fase() -> void:
 	pode_clicar = false
-	var meu_token := _token
 	fase_terminada.emit(fase)
 
-	if modo_autonomo and fase == 1:
-		await get_tree().create_timer(1.5).timeout
-		if meu_token != _token:
-			return
-		iniciar_fase(2)
+	print("Você Ganhou!")
+	
+	if mens_vitoria_label:
+		mens_vitoria_label.text = "Você Ganhou!"
+		mens_vitoria_label.show()
