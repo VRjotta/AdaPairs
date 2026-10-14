@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://cwj51d18hu4yf"]
 
+[ext_resource type="Texture2D" uid="uid://btl4h48ex72jc" path="res://assets/images/cenarioIluminado.png" id="1_6fdmy"]
+
 [node name="GameOver" type="Control" unique_id=1042547242]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +9,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CenarioIluminado" type="Sprite2D" parent="." unique_id=549741905]
+position = Vector2(576, 323.99997)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_6fdmy")

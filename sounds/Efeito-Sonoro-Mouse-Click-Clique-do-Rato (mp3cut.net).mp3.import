@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://do1isdjs1lf7q"
+path="res://.godot/imported/Efeito-Sonoro-Mouse-Click-Clique-do-Rato (mp3cut.net).mp3-66622cc48da7d6ac79669c1954bdf2d2.mp3str"
+
+[deps]
+
+source_file="res://sounds/Efeito-Sonoro-Mouse-Click-Clique-do-Rato (mp3cut.net).mp3"
+dest_files=["res://.godot/imported/Efeito-Sonoro-Mouse-Click-Clique-do-Rato (mp3cut.net).mp3-66622cc48da7d6ac79669c1954bdf2d2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bflr35bscl1on" path="res://scenes/menu/tela_de_titulo2.gd" id="1_8yff0"]
 [ext_resource type="Texture2D" uid="uid://blodw2lhw0ijm" path="res://assets/images/CenarioLuzApagada.png" id="1_144tc"]
+[ext_resource type="VideoStream" uid="uid://c3cu705ano1lv" path="res://assets/videos/videoconfig2.ogv" id="2_fxypb"]
 [ext_resource type="Texture2D" uid="uid://bocetg18lrik2" path="res://assets/images/ConfiguracaoEscura.png" id="2_lekay"]
-[ext_resource type="VideoStream" uid="uid://mo3h0thsq8px" path="res://assets/videos/VideoConfig.ogv" id="2_psqfg"]
 [ext_resource type="Texture2D" uid="uid://ikyrx6x5u8ds" path="res://assets/images/configHLE.png" id="3_c40mi"]
 [ext_resource type="Texture2D" uid="uid://yratk1b6ef7c" path="res://assets/images/cenarioLuzLigada.png" id="3_ed6sr"]
 [ext_resource type="Script" uid="uid://duwfcqtv1110h" path="res://scenes/menu/cliqueIrregular.gd" id="3_lekay"]
@@ -14,12 +14,15 @@
 [ext_resource type="Texture2D" uid="uid://rmmbgjmowdso" path="res://assets/images/JogarEscuro.png" id="4_vs02p"]
 [ext_resource type="Texture2D" uid="uid://famth2u5g2ts" path="res://assets/images/Mulheres/TituloAdaPairs.png" id="5_pw7of"]
 [ext_resource type="Texture2D" uid="uid://co6p1jn1luve5" path="res://assets/images/JogarHightLidghtEscuro.png" id="5_vs02p"]
+[ext_resource type="AudioStream" uid="uid://do1isdjs1lf7q" path="res://sounds/Efeito-Sonoro-Mouse-Click-Clique-do-Rato (mp3cut.net).mp3" id="6_gqsge"]
 [ext_resource type="Texture2D" uid="uid://dbkswoous0on4" path="res://assets/images/credhlee.png" id="6_qm6an"]
 [ext_resource type="Script" uid="uid://cdmk4qpsngtha" path="res://scenes/menu/button_3.gd" id="7_focq1"]
 [ext_resource type="Texture2D" uid="uid://dxoxp4o1mefrd" path="res://assets/images/CadeiraIluminada.png" id="12_1gryt"]
 [ext_resource type="Script" uid="uid://g0hipkk15788" path="res://scenes/menu/label_1p.gd" id="13_kxktu"]
 [ext_resource type="Texture2D" uid="uid://cee2gmyfdb3f3" path="res://assets/images/CadeiraIluminada2.png" id="13_nalgp"]
 [ext_resource type="Script" uid="uid://b8e2f1oh27lgf" path="res://scenes/menu/label_2p.gd" id="15_kxktu"]
+[ext_resource type="Texture2D" uid="uid://dc5p01htoqg1o" path="res://assets/images/pergaminho.png" id="21_fxypb"]
+[ext_resource type="AudioStream" uid="uid://16yyxn7tpwln" path="res://sounds/Light-Switch-Sound-Effect (mp3cut.net) (2).mp3" id="23_o78rl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dfquk"]
 atlas = ExtResource("2_lekay")
@@ -53,7 +56,45 @@ font_size = 29
 [sub_resource type="LabelSettings" id="LabelSettings_nalgp"]
 font_size = 29
 
-[node name="MenuInicial" type="Control" unique_id=457780716 node_paths=PackedStringArray("botao_jogar", "botao_configuracoes", "painel_selecao", "botao_voltar_selecao", "botao_1p", "silhueta_1p", "botao_2p", "silhueta_2p", "video_player", "tela_fade")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q01oy"]
+bg_color = Color(0.6991289, 0.58461654, 0.33979324, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myrtr"]
+bg_color = Color(0.67675227, 0.60321325, 0.18375266, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fxypb"]
+bg_color = Color(0.68548906, 0.5901622, 0.3527337, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jex3w"]
+bg_color = Color(0.67675227, 0.60321325, 0.18375266, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ym0sq"]
+bg_color = Color(0.67675227, 0.60321325, 0.18375266, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vt4f0"]
+bg_color = Color(0.6937352, 0.5912168, 0.27715346, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="MenuInicial" type="Control" unique_id=457780716 node_paths=PackedStringArray("imagem_fundo", "som_clique", "som_voltar", "botao_jogar", "botao_configuracoes", "painel_selecao", "botao_voltar_selecao", "botao_1p", "silhueta_1p", "botao_2p", "silhueta_2p", "painel_configuracoes", "botao_voltar_config", "botao_aba_audio", "botao_aba_idioma", "aba_audio", "aba_idioma", "slider_volume", "botao_idioma_pt", "botao_idioma_en", "botao_idioma_es", "video_player", "tela_fade")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -65,6 +106,10 @@ offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8yff0")
+imagem_fundo = NodePath("CenarioLuzApagada")
+textura_luz_desligada = ExtResource("1_144tc")
+som_clique = NodePath("SomClique")
+som_voltar = NodePath("SomVoltar")
 botao_jogar = NodePath("Button")
 botao_configuracoes = NodePath("Button2")
 painel_selecao = NodePath("PainelSelecao")
@@ -73,12 +118,27 @@ botao_1p = NodePath("PainelSelecao/Botão1P")
 silhueta_1p = NodePath("PainelSelecao/CadeiraIluminada2")
 botao_2p = NodePath("PainelSelecao/Botão2P")
 silhueta_2p = NodePath("PainelSelecao/CadeiraIluminada")
+painel_configuracoes = NodePath("PainelConfiguracoes")
+botao_voltar_config = NodePath("PainelConfiguracoes/BotaoVoltarConfig")
+botao_aba_audio = NodePath("PainelConfiguracoes/BotaoAbaAudio")
+botao_aba_idioma = NodePath("PainelConfiguracoes/BotaoAbaIdioma")
+aba_audio = NodePath("PainelConfiguracoes/AbaAudio")
+aba_idioma = NodePath("PainelConfiguracoes/AbaIdioma")
+slider_volume = NodePath("PainelConfiguracoes/AbaAudio/SliderVolume")
+botao_idioma_pt = NodePath("PainelConfiguracoes/AbaIdioma/BotaoPT")
+botao_idioma_en = NodePath("PainelConfiguracoes/AbaIdioma/BotaoEN")
+botao_idioma_es = NodePath("PainelConfiguracoes/AbaIdioma/BotaoES")
 video_player = NodePath("VideoStreamPlayer")
-video_config = ExtResource("2_psqfg")
+video_config = ExtResource("2_fxypb")
 video_1p = ExtResource("4_pw7of")
 video_2p = ExtResource("3_vl8ne")
 tela_fade = NodePath("ColorRect")
-caminho_tabuleiro = null
+
+[node name="SomClique" type="AudioStreamPlayer" parent="." unique_id=1311562037]
+stream = ExtResource("6_gqsge")
+
+[node name="SomVoltar" type="AudioStreamPlayer" parent="." unique_id=188247397]
+stream = ExtResource("23_o78rl")
 
 [node name="CenarioLuzApagada" type="Sprite2D" parent="." unique_id=279223845]
 position = Vector2(578, 321.99997)
@@ -142,6 +202,7 @@ meu_sprite = NodePath("../CenarioLuzApagada")
 nova_imagem = ExtResource("3_ed6sr")
 
 [node name="PainelSelecao" type="Control" parent="." unique_id=465539301]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -197,10 +258,98 @@ label_settings = SubResource("LabelSettings_nalgp")
 script = ExtResource("15_kxktu")
 
 [node name="PainelConfiguracoes" type="Control" parent="." unique_id=1514339389]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="PainelConfiguracoes" unique_id=1781538653]
+layout_mode = 0
+offset_left = 36.0
+offset_top = -141.0
+offset_right = 1112.0
+offset_bottom = 790.0
+texture = ExtResource("21_fxypb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BotaoAbaAudio" type="Button" parent="PainelConfiguracoes" unique_id=1673745554]
+layout_mode = 0
+offset_left = 397.0
+offset_top = 118.0
+offset_right = 539.0
+offset_bottom = 170.0
+tooltip_auto_translate_mode = 1
+theme_override_font_sizes/font_size = 37
+theme_override_styles/normal = SubResource("StyleBoxFlat_q01oy")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_myrtr")
+text = "Audio"
+
+[node name="BotaoAbaIdioma" type="Button" parent="PainelConfiguracoes" unique_id=1178887758]
+layout_mode = 0
+offset_left = 602.0
+offset_top = 116.0
+offset_right = 740.0
+offset_bottom = 169.0
+theme_override_font_sizes/font_size = 37
+theme_override_styles/normal = SubResource("StyleBoxFlat_fxypb")
+text = "Idioma"
+
+[node name="AbaAudio" type="Control" parent="PainelConfiguracoes" unique_id=636260591]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SliderVolume" type="HSlider" parent="PainelConfiguracoes/AbaAudio" unique_id=940126284]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 201.0
+offset_right = 724.0
+offset_bottom = 314.0
+
+[node name="AbaIdioma" type="Control" parent="PainelConfiguracoes" unique_id=1082199781]
+anchors_preset = 0
+offset_right = 48.0
+offset_bottom = 42.0
+
+[node name="BotaoPT" type="Button" parent="PainelConfiguracoes/AbaIdioma" unique_id=946594608]
+layout_mode = 0
+offset_left = 502.0
+offset_top = 229.0
+offset_right = 632.0
+offset_bottom = 287.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_jex3w")
+text = "Português"
+
+[node name="BotaoEN" type="Button" parent="PainelConfiguracoes/AbaIdioma" unique_id=1328614110]
+layout_mode = 0
+offset_left = 502.0
+offset_top = 308.0
+offset_right = 634.0
+offset_bottom = 364.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_ym0sq")
+text = "Inglês"
+
+[node name="BotaoES" type="Button" parent="PainelConfiguracoes/AbaIdioma" unique_id=1162604651]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 386.0
+offset_right = 635.0
+offset_bottom = 441.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_ym0sq")
+text = "Espanhol"
+
+[node name="BotaoVoltarConfig" type="Button" parent="PainelConfiguracoes" unique_id=1549109960]
+layout_mode = 0
+offset_left = 633.0
+offset_top = 499.0
+offset_right = 762.0
+offset_bottom = 534.0
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxFlat_vt4f0")
+text = "Voltar"
 
 [node name="BotãoVoltar" type="Button" parent="." unique_id=1495706123]
 modulate = Color(1, 1, 1, 0)
