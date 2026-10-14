@@ -15,6 +15,11 @@ run/main_scene="uid://cyy8gykjr2ne2"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://testes/icon.svg"
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="ignore"
+
 [dotnet]
 
 project/assembly_name="AdaPairs"

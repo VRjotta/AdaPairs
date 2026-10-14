@@ -277,3 +277,12 @@ func _tocar_som_clique() -> void:
 func _tocar_som_voltar() -> void:
 	if som_voltar:
 		som_voltar.play()
+		
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_F11:
+			var modo_atual = DisplayServer.window_get_mode()
+			if modo_atual == DisplayServer.WINDOW_MODE_FULLSCREEN:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			else:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)

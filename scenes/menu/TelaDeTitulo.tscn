@@ -258,12 +258,13 @@ label_settings = SubResource("LabelSettings_nalgp")
 script = ExtResource("15_kxktu")
 
 [node name="PainelConfiguracoes" type="Control" parent="." unique_id=1514339389]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="TextureRect" type="TextureRect" parent="PainelConfiguracoes" unique_id=1781538653]
-layout_mode = 0
+layout_mode = 1
 offset_left = 36.0
 offset_top = -141.0
 offset_right = 1112.0
