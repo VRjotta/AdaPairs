@@ -39,3 +39,15 @@ theme_override_constants/v_separation = 8
 columns = 6
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=656313849]
+
+[node name="MensagemVitoria" type="Label" parent="." unique_id=630319257]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.277
+anchor_top = 0.33600003
+anchor_right = 0.70600003
+anchor_bottom = 0.68600005
+offset_left = -0.84002686
+offset_top = 0.1199646
+offset_right = 0.47998047
+offset_bottom = 0.11993408

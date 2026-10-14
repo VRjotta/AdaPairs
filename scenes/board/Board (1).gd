@@ -12,12 +12,15 @@ const Slow_Music = preload("res://sounds/Música Slow AdaPairs.mp3")
 # FASE 2: Desativada / Comentada
 # const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
 
-@export var quantidade_de_pares: int = 18
-@export var colunas: int = 9
+# Caminho da fonte enviado
+const FONT_PATH = "res://assets/fontes/Always in the Star.ttf"
+
+@export var quantidade_de_pares: int = 12
+@export var colunas: int = 6
 @export var tempo_memorizacao_fase1: float = 5.0
 # @export var tempo_memorizacao_fase2: float = 0.0 # FASE 2
 @export var tempo_erro: float = 1.0
-@export var modo_autonomo: bool = false # Alterado para false já que não haverá transição automática para fase 2
+@export var modo_autonomo: bool = false 
 
 # Layout do tabuleiro
 @export var espacamento: int = 12         # espaço entre as cartas (px)
@@ -29,10 +32,9 @@ const Slow_Music = preload("res://sounds/Música Slow AdaPairs.mp3")
 @onready var dados_mulheres = preload("res://data/Dados_Mulheres.gd").new()
 @onready var audio_player = $AudioStreamPlayer
 
-# Nó opcional para exibir a mensagem de "Você ganhou!" na tela (certifique-se de ajustar o caminho caso tenha esse Label na sua cena)
+# Nó opcional para exibir a mensagem de "Você ganhou!" na tela
 @onready var mens_vitoria_label = $MensagemVitoria if has_node("MensagemVitoria") else null
 
-# var resume_card_scene: PackedScene # FASE 2
 var fase: int = 1
 var cartas_viradas: Array = []
 var pode_clicar: bool = false
@@ -41,12 +43,24 @@ var _token: int = 0 # identifica a fase atual; muda a cada iniciar_fase
 
 
 func _ready() -> void:
-	# FASE 2: Desativado o carregamento do ResumeCard
-	# if ResourceLoader.exists(RESUME_CARD_PATH):
-	# 	resume_card_scene = load(RESUME_CARD_PATH)
-	
 	if mens_vitoria_label:
 		mens_vitoria_label.hide()
+		
+		# Configura o Label para ocupar o ecrã inteiro e centralizar o texto perfeitamente
+		mens_vitoria_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		mens_vitoria_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		mens_vitoria_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		
+		# Carrega e aplica a fonte personalizada
+		if ResourceLoader.exists(FONT_PATH):
+			var custom_font = load(FONT_PATH)
+			mens_vitoria_label.add_theme_font_override("font", custom_font)
+		
+		# Aumenta o tamanho da fonte (ajuste o valor se quiser maior ou menor)
+		mens_vitoria_label.add_theme_font_size_override("font_size", 64)
+		
+		# Aplica a cor verde
+		mens_vitoria_label.add_theme_color_override("font_color", Color.GREEN)
 		
 	grid_container.columns = colunas
 	iniciar_fase(1)
@@ -73,19 +87,10 @@ func iniciar_fase(numero: int) -> void:
 	pode_clicar = false
 	cartas_viradas.clear()
 
-	# FASE 2: Verificação desativada
-	# if numero == 2 and resume_card_scene == null:
-	# 	push_error("ResumeCard.tscn não encontrada: fase 2 indisponível.")
-	# 	return
-
 	# >>> CONTROLE DA MÚSICA <<<
 	if fase == 1:
 		audio_player.stream = Slow_Music
 		audio_player.play()
-	# FASE 2: Músicas adicionais desativadas
-	# elif fase == 2:
-	# 	audio_player.stream = Fast_Music
-	# 	audio_player.play()
 
 	# Não pede mais pares do que existem nos dados
 	var pares: int = mini(quantidade_de_pares, dados_mulheres.mulheres.size())
@@ -112,11 +117,6 @@ func iniciar_fase(numero: int) -> void:
 			nova_carta = CARD_SCENE.instantiate()
 			grid_container.add_child(nova_carta)
 			nova_carta.definir_dados(id_carta, dados["imagem"])
-		# FASE 2: Instanciação do card de resumo desativada
-		# else:
-		# 	nova_carta = resume_card_scene.instantiate()
-		# 	grid_container.add_child(nova_carta)
-		# 	nova_carta.definir_dados(id_carta, dados.get("resumo", ""))
 
 		nova_carta.custom_minimum_size = tamanho_carta
 		nova_carta.carta_clicada.connect(_on_carta_clicada)
@@ -126,9 +126,7 @@ func iniciar_fase(numero: int) -> void:
 	if meu_token != _token:
 		return
 
-	# Usa o tempo de memorização da Fase 1
 	var tempo := tempo_memorizacao_fase1
-	# FASE 2: var tempo := tempo_memorizacao_fase1 if fase == 1 else tempo_memorizacao_fase2
 	
 	if tempo > 0.0:
 		for carta in grid_container.get_children():
@@ -146,14 +144,7 @@ func _gerar_itens(numero_fase: int, pares: int) -> Array:
 	var itens: Array = []
 	for i in range(pares):
 		itens.append({"id": i, "tipo": "figura"})
-		# Mantém apenas a criação de pares de figuras da Fase 1
 		itens.append({"id": i, "tipo": "figura"})
-		
-		# FASE 2: Lógica de geração de resumos comentada
-		# if numero_fase == 1:
-		# 	itens.append({"id": i, "tipo": "figura"})
-		# else:
-		# 	itens.append({"id": i, "tipo": "resumo"})
 			
 	itens.shuffle()
 	return itens
@@ -206,16 +197,8 @@ func _terminar_fase() -> void:
 	pode_clicar = false
 	fase_terminada.emit(fase)
 
-	# --- MENSAGEM DE VOCÊ GANHOU! ---
 	print("Você Ganhou!")
 	
 	if mens_vitoria_label:
 		mens_vitoria_label.text = "Você Ganhou!"
 		mens_vitoria_label.show()
-
-	# FASE 2: Transição automática para a Fase 2 comentada
-	# if modo_autonomo and fase == 1:
-	# 	await get_tree().create_timer(1.5).timeout
-	# 	if meu_token != _token:
-	# 		return
-	# 	iniciar_fase(2)
