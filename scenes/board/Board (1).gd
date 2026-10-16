@@ -3,6 +3,7 @@ extends Control
 signal par_acertado(valor)
 signal par_errado
 signal fase_terminada(fase)
+signal turno_mudou(jogador)
 
 const CARD_SCENE = preload("res://scenes/card/Card.tscn")
 # FASE 2: Desativada / Comentada
@@ -12,10 +13,26 @@ const Slow_Music = preload("res://sounds/Música Slow AdaPairs.mp3")
 # FASE 2: Desativada / Comentada
 # const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
 
-# Caminho da fonte enviado
-const FONT_PATH = "res://assets/fontes/Always in the Star.ttf"
+# Fontes
+const FONT_PATH = "res://assets/fontes/Always in the Star.ttf"   # vitória
+const FONT_TEXTO_PATH = "res://assets/fontes/Fredoka-Bold.ttf"   # placar e turnos
 
-@export var quantidade_de_pares: int = 12
+# Pontuação
+const PONTOS_ACERTO: int = 100
+const PENALIDADE_ERRO: int = 10
+
+# Destaque visual dos jogadores (índice 0 = Jogador 1, 1 = Jogador 2...)
+const CORES_JOGADORES: Array[Color] = [
+	Color("e63977"), # rosa    (Jogador 1)
+	Color("2e9cdb"), # azul    (Jogador 2)
+	Color("f2a900"), # amarelo (Jogador 3)
+	Color("3cb371"), # verde   (Jogador 4)
+]
+const OPACIDADE_INATIVO: float = 0.45
+const TAMANHO_ATIVO: int = 40
+const TAMANHO_INATIVO: int = 30
+
+@export var quantidade_de_pares: int = 6
 @export var colunas: int = 6
 @export var tempo_memorizacao_fase1: float = 5.0
 # @export var tempo_memorizacao_fase2: float = 0.0 # FASE 2
@@ -25,6 +42,7 @@ const FONT_PATH = "res://assets/fontes/Always in the Star.ttf"
 # Layout do tabuleiro
 @export var espacamento: int = 12         # espaço entre as cartas (px)
 @export var margem_tela: int = 60         # folga nas bordas da tela (px)
+@export var faixa_placar: int = 50        # espaço extra no topo reservado ao placar (px)
 @export var proporcao_carta: float = 0.75 # largura / altura (0.75 = 3:4). Use 1.0 para cartas quadradas
 @export var fator_tamanho: float = 0.8    # 1.0 = ocupa toda a área disponível; menor = cartas menores
 
@@ -34,11 +52,18 @@ const FONT_PATH = "res://assets/fontes/Always in the Star.ttf"
 
 # Nó opcional para exibir a mensagem de "Você ganhou!" na tela
 @onready var mens_vitoria_label = $MensagemVitoria if has_node("MensagemVitoria") else null
+# Nó opcional para exibir de quem é a vez (texto)
+@onready var turno_label = $TurnoLabel if has_node("TurnoLabel") else null
 
 var fase: int = 1
 var cartas_viradas: Array = []
 var pode_clicar: bool = false
 var pares_restantes: int = 0
+var pontuacoes: Array[int] = []
+var jogador_atual: int = 0 # índice do jogador (0 = Jogador 1)
+# Vem da escolha no menu: 1 = singleplayer, 2 a 4 = multiplayer
+var num_jogadores: int = clampi(ConfigJogo.num_jogadores, 1, 4)
+var placar_labels: Array = [] # um Label por jogador, criado por código
 var _token: int = 0 # identifica a fase atual; muda a cada iniciar_fase
 
 
@@ -61,14 +86,47 @@ func _ready() -> void:
 		
 		# Aplica a cor verde
 		mens_vitoria_label.add_theme_color_override("font_color", Color.GREEN)
+
+	# Fonte do label de turno (opcional)
+	if turno_label and ResourceLoader.exists(FONT_TEXTO_PATH):
+		turno_label.add_theme_font_override("font", load(FONT_TEXTO_PATH))
+		turno_label.add_theme_font_size_override("font_size", 28)
+
+	# Placar colorido (um label por jogador)
+	_criar_placar()
+
+	# Sistema de pontuação
+	par_acertado.connect(_on_par_acertado)
+	par_errado.connect(_on_par_errado)
 		
 	grid_container.columns = colunas
 	iniciar_fase(1)
 
 
+# Cria o placar no topo da tela, com um Label para cada jogador (1 a 4)
+func _criar_placar() -> void:
+	var caixa := HBoxContainer.new()
+	caixa.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	caixa.offset_top = 16
+	caixa.alignment = BoxContainer.ALIGNMENT_CENTER
+	caixa.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	caixa.add_theme_constant_override("separation", 60)
+	add_child(caixa)
+
+	var fonte = load(FONT_TEXTO_PATH) if ResourceLoader.exists(FONT_TEXTO_PATH) else null
+
+	for i in num_jogadores:
+		var l := Label.new()
+		if fonte:
+			l.add_theme_font_override("font", fonte)
+		caixa.add_child(l)
+		placar_labels.append(l)
+
+
 # Calcula o tamanho de cada carta para que todas caibam na tela
 func _calcular_tamanho_carta(total_cartas: int) -> Vector2:
-	var area := get_viewport_rect().size - Vector2.ONE * margem_tela * 2
+	# Reserva uma faixa extra no topo para o placar
+	var area := get_viewport_rect().size - Vector2(margem_tela * 2, margem_tela * 2 + faixa_placar)
 	var linhas := ceili(float(total_cartas) / colunas)
 
 	var largura := (area.x - espacamento * (colunas - 1)) / colunas
@@ -86,6 +144,10 @@ func iniciar_fase(numero: int) -> void:
 	fase = numero
 	pode_clicar = false
 	cartas_viradas.clear()
+
+	# Zera placar e turno ao começar o jogo
+	if numero == 1:
+		_resetar_jogo()
 
 	# >>> CONTROLE DA MÚSICA <<<
 	if fase == 1:
@@ -141,11 +203,18 @@ func iniciar_fase(numero: int) -> void:
 
 
 func _gerar_itens(numero_fase: int, pares: int) -> Array:
+	# Sorteia quais mulheres entram nesta rodada (entre todas as do data)
+	var ids: Array = range(dados_mulheres.mulheres.size())
+	ids.shuffle()
+	ids = ids.slice(0, pares)
+
+	# Cria as duas cartas de cada mulher sorteada
 	var itens: Array = []
-	for i in range(pares):
-		itens.append({"id": i, "tipo": "figura"})
-		itens.append({"id": i, "tipo": "figura"})
-			
+	for id_mulher in ids:
+		itens.append({"id": id_mulher, "tipo": "figura"})
+		itens.append({"id": id_mulher, "tipo": "figura"})
+
+	# Embaralha a posição das cartas no tabuleiro
 	itens.shuffle()
 	return itens
 
@@ -172,6 +241,7 @@ func checar_par() -> void:
 	var carta2 = cartas_viradas[1]
 
 	if carta1.valor == carta2.valor:
+		# Acertou: pontua e continua jogando (não passa a vez)
 		carta1.resolver()
 		carta2.resolver()
 		pares_restantes -= 1
@@ -183,6 +253,7 @@ func checar_par() -> void:
 		else:
 			pode_clicar = true
 	else:
+		# Errou: perde pontos e passa a vez depois de esconder as cartas
 		par_errado.emit()
 		await get_tree().create_timer(tempo_erro).timeout
 		if meu_token != _token:
@@ -190,6 +261,7 @@ func checar_par() -> void:
 		carta1.esconder()
 		carta2.esconder()
 		cartas_viradas.clear()
+		_proximo_turno()
 		pode_clicar = true
 
 
@@ -197,8 +269,118 @@ func _terminar_fase() -> void:
 	pode_clicar = false
 	fase_terminada.emit(fase)
 
-	print("Você Ganhou!")
+	var texto := _texto_resultado()
+	print(texto.replace("\n", " | "))
 	
 	if mens_vitoria_label:
-		mens_vitoria_label.text = "Você Ganhou!"
+		mens_vitoria_label.text = texto
+
+		# Multiplayer: pinta com a cor do vencedor. Singleplayer ou empate: verde
+		var maior: int = pontuacoes.max()
+		if num_jogadores > 1 and pontuacoes.count(maior) == 1:
+			var venc: int = pontuacoes.find(maior)
+			mens_vitoria_label.add_theme_color_override(
+				"font_color", CORES_JOGADORES[venc % CORES_JOGADORES.size()])
+		else:
+			mens_vitoria_label.add_theme_color_override("font_color", Color.GREEN)
+
 		mens_vitoria_label.show()
+
+
+# ---------- Turnos e pontuação ----------
+
+func _resetar_jogo() -> void:
+	pontuacoes.clear()
+	for i in num_jogadores:
+		pontuacoes.append(0)
+	jogador_atual = 0
+	_atualizar_turno_label()
+	turno_mudou.emit(jogador_atual)
+
+
+func _proximo_turno() -> void:
+	# No singleplayer o módulo mantém sempre o jogador 0
+	jogador_atual = (jogador_atual + 1) % num_jogadores
+	_atualizar_turno_label()
+	if num_jogadores > 1:
+		_animar_destaque(jogador_atual)
+	turno_mudou.emit(jogador_atual)
+
+
+func _on_par_acertado(_valor) -> void:
+	pontuacoes[jogador_atual] += PONTOS_ACERTO
+	_atualizar_placar()
+
+
+func _on_par_errado() -> void:
+	pontuacoes[jogador_atual] = maxi(0, pontuacoes[jogador_atual] - PENALIDADE_ERRO)
+	_atualizar_placar()
+
+
+# Atualiza texto e estilo de cada jogador (o da vez fica em destaque)
+func _atualizar_placar() -> void:
+	for i in placar_labels.size():
+		var l: Label = placar_labels[i]
+		if num_jogadores == 1:
+			l.text = "Pontos: %d" % pontuacoes[i]
+		else:
+			l.text = "J%d: %d" % [i + 1, pontuacoes[i]]
+		_aplicar_estilo_jogador(l, i, i == jogador_atual)
+
+
+func _aplicar_estilo_jogador(l: Label, indice: int, ativo: bool) -> void:
+	var cor: Color = CORES_JOGADORES[indice % CORES_JOGADORES.size()]
+	if not ativo:
+		cor.a = OPACIDADE_INATIVO
+
+	l.add_theme_color_override("font_color", cor)
+	l.add_theme_font_size_override("font_size", TAMANHO_ATIVO if ativo else TAMANHO_INATIVO)
+
+	# Contorno escuro para ler bem sobre qualquer fundo
+	l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.6))
+	l.add_theme_constant_override("outline_size", 6 if ativo else 0)
+
+
+func _atualizar_turno_label() -> void:
+	# Atualiza o destaque dos placares e o texto "Vez do Jogador X"
+	_atualizar_placar()
+
+	if turno_label:
+		# No singleplayer não faz sentido mostrar de quem é a vez
+		turno_label.visible = num_jogadores > 1
+		turno_label.text = "Vez do Jogador %d" % (jogador_atual + 1)
+		turno_label.add_theme_color_override(
+			"font_color", CORES_JOGADORES[jogador_atual % CORES_JOGADORES.size()])
+
+
+# Pequeno "pulo" no label do jogador que acabou de ganhar a vez
+func _animar_destaque(indice: int) -> void:
+	if indice >= placar_labels.size():
+		return
+	var l: Label = placar_labels[indice]
+	l.pivot_offset = l.size / 2.0
+	var tw := create_tween()
+	tw.tween_property(l, "scale", Vector2(1.3, 1.3), 0.12)
+	tw.tween_property(l, "scale", Vector2.ONE, 0.12)
+
+
+# Monta o texto final: vencedor ou empate, mais o placar
+func _texto_resultado() -> String:
+	# Singleplayer: sem vencedor, só a pontuação
+	if num_jogadores == 1:
+		return "Você Ganhou!\nPontos: %d" % pontuacoes[0]
+
+	var maior: int = pontuacoes.max()
+	var vencedores: Array = []
+	for i in num_jogadores:
+		if pontuacoes[i] == maior:
+			vencedores.append(i + 1)
+
+	var titulo := "Empate!"
+	if vencedores.size() == 1:
+		titulo = "Jogador %d Ganhou!" % vencedores[0]
+
+	var linhas: PackedStringArray = [titulo]
+	for i in num_jogadores:
+		linhas.append("Jogador %d: %d pontos" % [i + 1, pontuacoes[i]])
+	return "\n".join(linhas)

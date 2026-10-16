@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://chqgpvx4bstlk" path="res://scenes/board/Board (1).gd" id="1_6puts"]
 [ext_resource type="Texture2D" uid="uid://bldlkx6jnjd7y" path="res://assets/images/Tabuleiro.png" id="2_4vko3"]
+[ext_resource type="Script" uid="uid://b4e43wi6qtmar" path="res://scenes/board/sair.gd" id="3_kmmm1"]
+[ext_resource type="FontFile" uid="uid://c1ec4mbshhfgn" path="res://assets/fontes/Poppins-Medium.ttf" id="4_wjfn2"]
 
 [node name="Board" type="Control" unique_id=127724548]
 layout_mode = 3
@@ -11,6 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6puts")
+quantidade_de_pares = 12
 fator_tamanho = 0.92
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=997548699]
@@ -51,3 +54,44 @@ offset_left = -0.84002686
 offset_top = 0.1199646
 offset_right = 0.47998047
 offset_bottom = 0.11993408
+
+[node name="Sair" type="Button" parent="." unique_id=1492439376]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.93700004
+anchor_top = 0.91400003
+anchor_right = 0.99100006
+anchor_bottom = 0.99100006
+offset_left = -0.040039063
+offset_top = -0.12005615
+offset_right = 0.27990723
+offset_bottom = -0.2800293
+script = ExtResource("3_kmmm1")
+
+[node name="Label" type="Label" parent="." unique_id=1478008473]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.021000002
+anchor_top = 0.026
+anchor_right = 0.125
+anchor_bottom = 0.15200001
+offset_left = -0.3200035
+offset_top = -0.07999992
+offset_bottom = -0.16000366
+theme_override_colors/font_color = Color(0.42, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("4_wjfn2")
+theme_override_font_sizes/font_size = 26
+text = "Acerto +100
+Erro -10"
+
+[node name="TurnoLabel" type="Label" parent="." unique_id=784366034]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 17.0
+grow_horizontal = 2

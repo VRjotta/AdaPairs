@@ -253,7 +253,7 @@ offset_left = 750.0
 offset_top = 424.0
 offset_right = 857.0
 offset_bottom = 454.0
-text = "2 Players"
+text = "Multiplayer"
 label_settings = SubResource("LabelSettings_nalgp")
 script = ExtResource("15_kxktu")
 

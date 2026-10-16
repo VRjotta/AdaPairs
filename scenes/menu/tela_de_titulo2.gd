@@ -26,6 +26,12 @@ extends Control
 @export var botao_2p: BaseButton
 @export var silhueta_2p: CanvasItem
 
+@export_group("Seletor de Jogadores (Multiplayer)")
+## Fonte opcional para a tela "Quantos jogadores?"
+@export var fonte_seletor: Font
+@export var min_jogadores: int = 2
+@export var max_jogadores: int = 4
+
 @export_group("Painel de Configurações")
 @export var painel_configuracoes: Control
 @export var botao_voltar_config: BaseButton
@@ -45,6 +51,9 @@ extends Control
 @export var video_2p: VideoStream
 @export var tela_fade: ColorRect
 @export_file("*.tscn") var caminho_tabuleiro: String = "res://tabuleiro.tscn"
+
+# Tela "Quantos jogadores?" (criada por código)
+var _seletor_jogadores: Control
 
 
 # ==============================================================================
@@ -72,19 +81,19 @@ func _ready() -> void:
 	if botao_voltar_config:
 		botao_voltar_config.pressed.connect(_voltar_ao_menu_inicial)
 
-	# Conexões da seleção 1 Player
+	# Conexões da seleção 1 Player (vai direto para o jogo)
 	if botao_1p:
 		if silhueta_1p:
 			botao_1p.mouse_entered.connect(func(): silhueta_1p.visible = true)
 			botao_1p.mouse_exited.connect(func(): silhueta_1p.visible = false)
 		botao_1p.pressed.connect(_ao_escolher_modo.bind(1))
 
-	# Conexões da seleção 2 Players
+	# Conexões do Multiplayer (abre o seletor de quantidade de jogadores)
 	if botao_2p:
 		if silhueta_2p:
 			botao_2p.mouse_entered.connect(func(): silhueta_2p.visible = true)
 			botao_2p.mouse_exited.connect(func(): silhueta_2p.visible = false)
-		botao_2p.pressed.connect(_ao_escolher_modo.bind(2))
+		botao_2p.pressed.connect(_abrir_seletor_jogadores)
 
 	# Abas do menu de configurações
 	if botao_aba_audio:
@@ -109,6 +118,9 @@ func _ready() -> void:
 	_voltar_ao_menu_inicial()
 	# Conecta os sons automaticamente
 	_conectar_sons_nos_botoes(self)
+
+	# Criado depois da varredura de sons: os botões do seletor têm som próprio
+	_criar_seletor_jogadores()
 
 
 # ==============================================================================
@@ -177,6 +189,8 @@ func _voltar_ao_menu_inicial() -> void:
 		silhueta_1p.visible = false
 	if silhueta_2p:
 		silhueta_2p.visible = false
+	if _seletor_jogadores:
+		_seletor_jogadores.visible = false
 
 	if video_player:
 		video_player.stop()
@@ -190,7 +204,89 @@ func _voltar_ao_menu_inicial() -> void:
 
 
 # ==============================================================================
-# 4. CONFIGURAÇÕES: ÁUDIO E IDIOMA
+# 4. SELETOR DE QUANTIDADE DE JOGADORES (MULTIPLAYER)
+# ==============================================================================
+
+func _criar_seletor_jogadores() -> void:
+	var centro := CenterContainer.new()
+	centro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	centro.visible = false
+	add_child(centro)
+	_seletor_jogadores = centro
+
+	# Tema local: fonte e tamanho do texto da tela inteira
+	var tema := Theme.new()
+	if fonte_seletor:
+		tema.default_font = fonte_seletor
+	tema.default_font_size = 32
+	centro.theme = tema
+
+	var painel := PanelContainer.new()
+	centro.add_child(painel)
+
+	var margem := MarginContainer.new()
+	for lado in ["left", "top", "right", "bottom"]:
+		margem.add_theme_constant_override("margin_" + lado, 32)
+	painel.add_child(margem)
+
+	var caixa := VBoxContainer.new()
+	caixa.add_theme_constant_override("separation", 24)
+	margem.add_child(caixa)
+
+	var titulo := Label.new()
+	titulo.text = "Quantos jogadores?"
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	caixa.add_child(titulo)
+
+	# Um botão para cada quantidade possível (2, 3, 4...)
+	var linha := HBoxContainer.new()
+	linha.alignment = BoxContainer.ALIGNMENT_CENTER
+	linha.add_theme_constant_override("separation", 16)
+	caixa.add_child(linha)
+
+	for n in range(min_jogadores, max_jogadores + 1):
+		var b := Button.new()
+		b.text = str(n)
+		b.custom_minimum_size = Vector2(90, 90)
+		b.pressed.connect(_tocar_som_clique)
+		b.pressed.connect(_ao_escolher_quantidade.bind(n))
+		linha.add_child(b)
+
+	var voltar := Button.new()
+	voltar.text = "Voltar"
+	voltar.pressed.connect(_tocar_som_voltar)
+	voltar.pressed.connect(_fechar_seletor_jogadores)
+	caixa.add_child(voltar)
+
+
+func _abrir_seletor_jogadores() -> void:
+	if silhueta_2p:
+		silhueta_2p.visible = false
+	if painel_selecao:
+		painel_selecao.visible = false
+	if botao_voltar_selecao:
+		botao_voltar_selecao.visible = false
+	if _seletor_jogadores:
+		_seletor_jogadores.visible = true
+
+
+func _fechar_seletor_jogadores() -> void:
+	if _seletor_jogadores:
+		_seletor_jogadores.visible = false
+	if painel_selecao:
+		painel_selecao.visible = true
+	if botao_voltar_selecao:
+		botao_voltar_selecao.visible = true
+
+
+func _ao_escolher_quantidade(quantidade: int) -> void:
+	if _seletor_jogadores:
+		_seletor_jogadores.visible = false
+	_ao_escolher_modo(quantidade)
+
+
+# ==============================================================================
+# 5. CONFIGURAÇÕES: ÁUDIO E IDIOMA
 # ==============================================================================
 
 func _mostrar_aba_audio() -> void:
@@ -218,10 +314,13 @@ func _trocar_idioma(locale: String) -> void:
 
 
 # ==============================================================================
-# 5. TRANSIÇÃO PARA O TABULEIRO
+# 6. TRANSIÇÃO PARA O TABULEIRO
 # ==============================================================================
 
 func _ao_escolher_modo(jogadores: int) -> void:
+	# Guarda a quantidade de jogadores para o tabuleiro ler
+	ConfigJogo.num_jogadores = jogadores
+
 	if botao_1p:
 		botao_1p.disabled = true
 	if botao_2p:
@@ -232,6 +331,7 @@ func _ao_escolher_modo(jogadores: int) -> void:
 		painel_selecao.visible = false
 
 	if video_player:
+		# 1 jogador usa o vídeo do 1P; 2 ou mais usam o vídeo do multiplayer
 		var stream_escolhido: VideoStream = video_1p if jogadores == 1 else video_2p
 		if stream_escolhido:
 			video_player.stream = stream_escolhido

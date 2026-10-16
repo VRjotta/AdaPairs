@@ -79,7 +79,7 @@ var mulheres = {
 	},
 	15: {
 		"nome": "Timnit Gebru",
-		"imagem": "res://assets/images/Mulheres/TimnitGebru.png",
+		"imagem": "res://assets/images/Mulheres/TinmitGebru.png",
 		"resumo": "Pesquisadora de ética em IA e fundadora da DAIR. Co-autora dos estudos Gender Shades (revelando viés racial/de gênero em reconhecimento facial) e Stochastic Parrots (riscos de modelos massivos de linguagem)."
 	},
 	16: {
