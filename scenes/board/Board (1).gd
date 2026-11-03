@@ -34,7 +34,7 @@ const TAMANHO_INATIVO: int = 30
 
 @export var quantidade_de_pares: int = 6
 @export var colunas: int = 6
-@export var tempo_memorizacao_fase1: float = 5.0
+@export var tempo_memorizacao_fase1: float = 10.0
 # @export var tempo_memorizacao_fase2: float = 0.0 # FASE 2
 @export var tempo_erro: float = 1.0
 @export var modo_autonomo: bool = false 
