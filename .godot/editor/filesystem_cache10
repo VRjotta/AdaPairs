@@ -1,12 +1,12 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1793702924
+::res://::1794876388
 teste_card.gd::GDScript::4004472465205778134::1791648139::0::1::::<>Node<><>0<>0<><>::
 ::res://assets/::1791936501
 ::res://assets/fontes/::1792117141
 Always in the Star.ttf::FontFile::6996914135306306715::1791936501::1791936506::1::::<><><>0<>0<>7f9bafd79cc60c74aad210cc213c4c55<>res://.godot/imported/Always in the Star.ttf-38f4b27b9bb1bfcae6e6727f0e00c70b.fontdata::
 Fredoka-Bold.ttf::FontFile::6081653063313044539::1792117140::1792117141::1::::<><><>0<>0<>377faedcb4ff1c7024af890dae79c837<>res://.godot/imported/Fredoka-Bold.ttf-ea18cc56699d4aa0923417ec59e01a62.fontdata::
 Poppins-Medium.ttf::FontFile::6606182667652537365::1792093420::1792093420::1::::<><><>0<>0<>bf116631ef4f60cb7d7993f2ba198d64<>res://.godot/imported/Poppins-Medium.ttf-c5cf8177644ae1c533c30b6d2a769b79.fontdata::
-::res://assets/images/::1793704496
+::res://assets/images/::1793704497
 botao_hover.tres::AtlasTexture::2897287715493826393::1791936506::0::1::::<><><>0<>0<><>::uid://co6p1jn1luve5::::res://assets/images/JogarHightLidghtEscuro.png
 CadeiraIluminada2.png::CompressedTexture2D::5063504994109460366::1791848308::1791848338::1::::<><><>0<>0<>df1cb62fae47cbe8bc10eaf914d91de8<>res://.godot/imported/CadeiraIluminada2.png-2e3ba3f0809551cb1229746e2a0d835d.ctex::
 CadeiraIluminada.png::CompressedTexture2D::8803931567055023609::1791848308::1791848338::1::::<><><>0<>0<>02270a5544b8daebff93cff58665beeb<>res://.godot/imported/CadeiraIluminada.png-40cf0afe19e4a1b79e96a7e56edc93df.ctex::
@@ -67,8 +67,8 @@ VideoConfig.ogv::VideoStreamTheora::872881331345827801::1791986058::0::1::::<><>
 Dados_Mulheres.gd::GDScript::4242493634290031761::1792120228::0::1::::<>Node<><>0<>0<><>::
 Sla.txt::TextFile::-1::1790175348::0::1::::<><><>0<>0<><>::
 ::res://scenes/::1790096951
-::res://scenes/board/::1793704420
-Board (1).gd::GDScript::5297585545623105484::1793703280::0::1::::<>Control<><>0<>0<><>::
+::res://scenes/board/::1793705903
+Board (1).gd::GDScript::5297585545623105484::1793705903::0::1::::<>Control<><>0<>0<><>::
 Board.tscn::PackedScene::8360054401701918115::1793704420::0::1::::<><><>0<>0<><>::uid://chqgpvx4bstlk::::res://scenes/board/Board (1).gd<>uid://bldlkx6jnjd7y::::res://assets/images/Tabuleiro.png<>uid://b4e43wi6qtmar::::res://scenes/board/sair.gd<>uid://c1ec4mbshhfgn::::res://assets/fontes/Poppins-Medium.ttf
 Fundo_Tabuleiro.png::CompressedTexture2D::3448006174185416419::1791948913::1791948952::1::::<><><>0<>0<>04b4b6314006210a98b8dd53de028999<>res://.godot/imported/Fundo_Tabuleiro.png-e6e4ffd41d52f11ae9d81f72c9312f48.ctex::
 sair.gd::GDScript::4431966624534622521::1792088161::0::1::::<>Button<><>0<>0<><>::

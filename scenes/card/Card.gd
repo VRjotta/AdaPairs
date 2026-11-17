@@ -99,4 +99,4 @@ func _atualizar_visual() -> void:
 		EstadoCarta.RESOLVIDA:
 			textura.texture = imagem
 			textura.visible = true
-			textura.modulate = Color(1, 1, 1, 0.6)
+			textura.modulate = Color(0.82, 0.82, 0.82, 1.0)

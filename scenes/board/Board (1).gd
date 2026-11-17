@@ -9,12 +9,15 @@ const CARD_SCENE = preload("res://scenes/card/Card.tscn")
 # FASE 2: Desativada / Comentada
 # const RESUME_CARD_PATH = "res://scenes/card/ResumeCard.tscn"
 
+# Balão com nome e resumo ao passar o mouse sobre uma carta resolvida
+const ResumoHover = preload("res://scenes/board/ResumoHover.gd") # ajuste o caminho onde salvou o arquivo
+
 const Slow_Music = preload("res://sounds/Música Slow AdaPairs.mp3")
 # FASE 2: Desativada / Comentada
 # const Fast_Music = preload("res://sounds/Música Fast AdaPairs.mp3")
 
 # Fontes
-const FONT_PATH = "res://assets/fontes/Always in the Star.ttf"   # vitória
+const FONT_PATH = "res://assets/fontes/Fredoka-Bold.ttf"        # vitória (legível; a "Always in the Star" cansava a leitura)
 const FONT_TEXTO_PATH = "res://assets/fontes/Fredoka-Bold.ttf"   # placar e turnos
 
 # Pontuação
@@ -33,7 +36,7 @@ const TAMANHO_ATIVO: int = 40
 const TAMANHO_INATIVO: int = 30
 
 @export var quantidade_de_pares: int = 6
-@export var colunas: int = 6
+@export var colunas: int = 8
 @export var tempo_memorizacao_fase1: float = 10.0
 # @export var tempo_memorizacao_fase2: float = 0.0 # FASE 2
 @export var tempo_erro: float = 1.0
@@ -64,6 +67,7 @@ var jogador_atual: int = 0 # índice do jogador (0 = Jogador 1)
 # Vem da escolha no menu: 1 = singleplayer, 2 a 4 = multiplayer
 var num_jogadores: int = clampi(ConfigJogo.num_jogadores, 1, 4)
 var placar_labels: Array = [] # um Label por jogador, criado por código
+var resumo_hover: CanvasLayer # balão do resumo, criado por código
 var _token: int = 0 # identifica a fase atual; muda a cada iniciar_fase
 
 
@@ -87,6 +91,11 @@ func _ready() -> void:
 		# Aplica a cor verde
 		mens_vitoria_label.add_theme_color_override("font_color", Color.GREEN)
 
+		# Contorno escuro para a mensagem ler bem sobre a madeira
+		mens_vitoria_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+		mens_vitoria_label.add_theme_constant_override("outline_size", 12)
+		mens_vitoria_label.add_theme_constant_override("line_spacing", 8)
+
 	# Fonte do label de turno (opcional)
 	if turno_label and ResourceLoader.exists(FONT_TEXTO_PATH):
 		turno_label.add_theme_font_override("font", load(FONT_TEXTO_PATH))
@@ -94,6 +103,10 @@ func _ready() -> void:
 
 	# Placar colorido (um label por jogador)
 	_criar_placar()
+
+	# Balão de resumo (hover nas cartas resolvidas)
+	resumo_hover = ResumoHover.new()
+	add_child(resumo_hover)
 
 	# Sistema de pontuação
 	par_acertado.connect(_on_par_acertado)
@@ -145,6 +158,9 @@ func iniciar_fase(numero: int) -> void:
 	pode_clicar = false
 	cartas_viradas.clear()
 
+	# Fecha qualquer balão de resumo que tenha ficado aberto
+	resumo_hover.esconder()
+
 	# Zera placar e turno ao começar o jogo
 	if numero == 1:
 		_resetar_jogo()
@@ -182,6 +198,10 @@ func iniciar_fase(numero: int) -> void:
 
 		nova_carta.custom_minimum_size = tamanho_carta
 		nova_carta.carta_clicada.connect(_on_carta_clicada)
+
+		# Hover: mostra o resumo só nas cartas resolvidas
+		nova_carta.mouse_entered.connect(_on_carta_mouse_entrou.bind(nova_carta))
+		nova_carta.mouse_exited.connect(resumo_hover.esconder.bind(nova_carta))
 
 	# Espera um frame para o GridContainer definir o tamanho final das cartas.
 	await get_tree().process_frame
@@ -231,6 +251,14 @@ func _on_carta_clicada(carta_selecionada) -> void:
 
 	if cartas_viradas.size() == 2:
 		checar_par()
+
+
+# Mouse entrou em uma carta: se ela já foi resolvida, mostra nome e resumo
+func _on_carta_mouse_entrou(carta) -> void:
+	if carta.estado != carta.EstadoCarta.RESOLVIDA:
+		return
+	var dados = dados_mulheres.mulheres[carta.valor]
+	resumo_hover.mostrar(carta, dados["nome"], dados.get("resumo", ""))
 
 
 func checar_par() -> void:
